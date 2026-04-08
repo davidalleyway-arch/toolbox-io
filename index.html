@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolBox.io — Free Online Tools for Everyone</title>
+<meta name="description" content="Free online tools: word counter, password generator, JSON formatter, QR code generator, color picker, unit converter and more. No signup required.">
+<meta name="keywords" content="online tools, word counter, password generator, JSON formatter, QR code generator, base64 encoder, markdown preview, unit converter">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:rgb(252,251,249);--bg2:#f4f1ec;--bg3:#eae6df;
+  --text:#1a1714;--text2:#5c554b;--text3:#8a8279;
+  --primary:#3d2c8c;--primary-light:#5a43b5;--primary-dim:rgba(61,44,140,.08);
+  --accent:#d4891c;--accent-light:#e9a84a;--accent-dim:rgba(212,137,28,.1);
+  --border:#ddd7ce;--border2:#c9c1b5;
+  --card:#fff;--card-shadow:0 1px 3px rgba(26,23,20,.06),0 6px 16px rgba(26,23,20,.04);
+  --card-hover:0 2px 8px rgba(26,23,20,.08),0 12px 28px rgba(26,23,20,.06);
+  --radius:10px;--radius-sm:6px;--radius-lg:16px;
+  --font:"DM Sans",system-ui,sans-serif;
+  --font-display:"Instrument Serif",Georgia,serif;
+  --font-mono:"JetBrains Mono",monospace;
+  --sidebar-w:260px;--header-h:64px;
+  --ad-bg:#f0ede8;--ad-border:#ccc5ba;--ad-text:#9e9588;
+  --transition:0.25s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#141210;--bg2:#1c1a17;--bg3:#252220;
+  --text:#e8e4de;--text2:#a8a196;--text3:#706860;
+  --primary:#8b7bd4;--primary-light:#a898e8;--primary-dim:rgba(139,123,212,.12);
+  --border:#2e2a26;--border2:#3d3833;
+  --card:#1e1c19;--card-shadow:0 1px 3px rgba(0,0,0,.2),0 6px 16px rgba(0,0,0,.15);
+  --card-hover:0 2px 8px rgba(0,0,0,.25),0 12px 28px rgba(0,0,0,.2);
+  --ad-bg:#1a1816;--ad-border:#332f2a;--ad-text:#5c5548;
+  --accent:#e9a84a;--accent-light:#f0be6e;--accent-dim:rgba(233,168,74,.1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;min-height:100vh}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
+a{color:var(--primary);text-decoration:none}
+a:hover{color:var(--primary-light)}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:var(--font);outline:none}
+::selection{background:var(--primary);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+
+/* Cookie Banner */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--card);border-top:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .4s ease;font-size:.875rem;color:var(--text2)}
+.cookie-banner.show{transform:translateY(0)}
+.cookie-banner button{padding:8px 20px;border-radius:var(--radius-sm);font-weight:600;font-size:.8rem;transition:all var(--transition)}
+.cookie-btn-accept{background:var(--primary);color:#fff}
+.cookie-btn-accept:hover{background:var(--primary-light)}
+.cookie-btn-decline{background:var(--bg2);color:var(--text2)}
+.cookie-btn-decline:hover{background:var(--bg3)}
+
+/* Header */
+.header{position:sticky;top:0;z-index:100;height:var(--header-h);background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1rem;position:relative;overflow:hidden}
+.logo-icon::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.15) 50%,transparent 60%);animation:sheen 4s ease infinite}
+@keyframes sheen{0%,100%{transform:translateX(-100%) rotate(25deg)}50%{transform:translateX(100%) rotate(25deg)}}
+.logo-text{font-family:var(--font-display);font-size:1.4rem;color:var(--text);font-style:italic}
+.logo-text span{color:var(--accent)}
+.header-tagline{font-size:.75rem;color:var(--text3);margin-left:-4px;display:none}
+@media(min-width:900px){.header-tagline{display:block}}
+.header-spacer{flex:1}
+.search-box{position:relative;max-width:280px;width:100%}
+.search-box input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:.85rem;transition:all var(--transition)}
+.search-box input:focus{border-color:var(--primary);background:var(--card);box-shadow:0 0 0 3px var(--primary-dim)}
+.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text3)}
+.theme-toggle{width:38px;height:38px;border-radius:var(--radius);background:var(--bg2);display:flex;align-items:center;justify-content:center;transition:all var(--transition);color:var(--text2);flex-shrink:0}
+.theme-toggle:hover{background:var(--bg3);color:var(--text)}
+.mobile-menu-btn{display:none;width:38px;height:38px;border-radius:var(--radius);background:var(--bg2);align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+@media(max-width:768px){.mobile-menu-btn{display:flex}}
+
+/* Ad Spaces */
+.ad-space{background:var(--ad-bg);border:2px dashed var(--ad-border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--ad-text);font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;position:relative;overflow:hidden}
+.ad-space::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,.015) 8px,rgba(0,0,0,.015) 16px)}
+.ad-leaderboard{max-width:728px;height:90px;margin:12px auto}
+.ad-sidebar{width:100%;height:250px;margin:12px 0}
+.ad-footer{position:fixed;bottom:0;left:0;right:0;height:60px;z-index:90;background:var(--card);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--ad-text);letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.ad-footer-inner{max-width:728px;width:100%;height:50px;background:var(--ad-bg);border:2px dashed var(--ad-border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.ad-footer-inner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,.015) 8px,rgba(0,0,0,.015) 16px)}
+
+/* Layout */
+.main-layout{display:flex;min-height:calc(100vh - var(--header-h));padding-bottom:70px}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid var(--border);background:var(--bg);padding:16px 0;overflow-y:auto;position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));transition:transform .3s ease}
+@media(max-width:768px){
+  .sidebar{position:fixed;top:var(--header-h);left:0;bottom:0;z-index:99;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,.1)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,.3)}
+  .sidebar-overlay.show{display:block}
+}
+.sidebar-section{padding:0 12px;margin-bottom:8px}
+.sidebar-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);padding:8px 12px 4px;font-weight:600}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);font-size:.85rem;color:var(--text2);font-weight:450;position:relative}
+.sidebar-item:hover{background:var(--primary-dim);color:var(--text)}
+.sidebar-item.active{background:var(--primary-dim);color:var(--primary);font-weight:600}
+.sidebar-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--primary);border-radius:0 3px 3px 0}
+.sidebar-item svg{width:18px;height:18px;flex-shrink:0;opacity:.7}
+.sidebar-item.active svg{opacity:1}
+.sidebar-ad{padding:12px}
+
+/* Content */
+.content{flex:1;min-width:0;padding:24px;max-width:960px;margin:0 auto}
+@media(min-width:1200px){.content{padding:24px 40px}}
+.content-right{width:300px;flex-shrink:0;padding:16px;display:none}
+@media(min-width:1100px){.content-right{display:block}}
+
+/* Tool Panel */
+.tool-panel{animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.tool-header{margin-bottom:24px}
+.tool-title{font-size:2rem;margin-bottom:4px;color:var(--text)}
+.tool-desc{font-size:.9rem;color:var(--text2);max-width:600px}
+.tool-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tool-actions button,.share-btn{padding:7px 14px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;transition:all var(--transition);display:flex;align-items:center;gap:5px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-light);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--bg3);color:var(--text)}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:var(--accent-light);transform:translateY(-1px)}
+.share-bar{display:flex;gap:6px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.share-btn{background:var(--bg2);color:var(--text3);border:1px solid var(--border);font-size:.72rem}
+.share-btn:hover{color:var(--text);background:var(--bg3)}
+
+/* Form Elements */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:.9rem;transition:all var(--transition)}
+.field textarea{min-height:140px;resize:vertical;font-family:var(--font-mono);font-size:.82rem;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-dim)}
+.field-row{display:flex;gap:12px;flex-wrap:wrap}
+.field-row .field{flex:1;min-width:140px}
+.toggle-group{display:flex;gap:6px;flex-wrap:wrap}
+.toggle-chip{padding:6px 14px;border-radius:20px;font-size:.78rem;font-weight:600;background:var(--bg2);color:var(--text3);border:1px solid var(--border);cursor:pointer;transition:all var(--transition)}
+.toggle-chip:hover{background:var(--bg3);color:var(--text)}
+.toggle-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.output-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:var(--font-mono);font-size:.82rem;line-height:1.5;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;color:var(--text);position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;padding:4px 10px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--border);font-size:.7rem;font-weight:600;color:var(--text3);transition:all var(--transition)}
+.copy-btn:hover{color:var(--text);background:var(--bg3)}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:12px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.result-card .val{font-size:1.5rem;font-family:var(--font-display);color:var(--primary);font-style:italic}
+.result-card .lbl{font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;font-weight:600}
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type="range"]{flex:1;accent-color:var(--primary)}
+.slider-row .val{font-family:var(--font-mono);font-size:.85rem;min-width:30px;text-align:center;color:var(--primary);font-weight:600}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2);cursor:pointer}
+.checkbox-row input{accent-color:var(--primary);width:16px;height:16px}
+.color-preview{width:100%;height:80px;border-radius:var(--radius);border:1px solid var(--border);transition:background .2s}
+.split-pane{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.split-pane{grid-template-columns:1fr}}
+.split-pane .pane{min-height:200px}
+.markdown-preview{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-y:auto;max-height:400px;font-size:.88rem;line-height:1.7}
+.markdown-preview h1,.markdown-preview h2,.markdown-preview h3{font-family:var(--font-display);margin:12px 0 6px}
+.markdown-preview h1{font-size:1.6rem}
+.markdown-preview h2{font-size:1.3rem}
+.markdown-preview h3{font-size:1.1rem}
+.markdown-preview p{margin-bottom:8px}
+.markdown-preview code{background:var(--bg2);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:.82rem}
+.markdown-preview pre{background:var(--bg2);padding:12px;border-radius:var(--radius);overflow-x:auto;margin:8px 0}
+.markdown-preview pre code{background:none;padding:0}
+.markdown-preview ul,.markdown-preview ol{padding-left:20px;margin-bottom:8px}
+.markdown-preview blockquote{border-left:3px solid var(--primary);padding-left:12px;color:var(--text2);margin:8px 0}
+.qr-output{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.error-msg{color:#c0392b;font-size:.8rem;margin-top:6px;font-weight:500}
+.success-msg{color:#27ae60;font-size:.8rem;margin-top:6px;font-weight:500}
+
+/* Support Section */
+.support-section{margin-top:40px;padding:32px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);text-align:center}
+.support-section h2{font-size:1.8rem;margin-bottom:8px}
+.support-section p{color:var(--text2);font-size:.9rem;max-width:500px;margin:0 auto 20px}
+.donate-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.donate-btn{padding:10px 20px;border-radius:var(--radius);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:8px;transition:all var(--transition);border:1px solid var(--border)}
+.donate-btn:hover{transform:translateY(-2px);box-shadow:var(--card-hover)}
+.donate-bmc{background:#ffdd00;color:#1a1a1a;border-color:#ffdd00}
+.donate-paypal{background:#0070ba;color:#fff;border-color:#0070ba}
+.donate-kofi{background:#ff5e5b;color:#fff;border-color:#ff5e5b}
+.crypto-addrs{text-align:left;max-width:440px;margin:16px auto 0;background:var(--bg2);border-radius:var(--radius);padding:16px}
+.crypto-addrs h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:8px;font-family:var(--font)}
+.crypto-addr{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.78rem}
+.crypto-addr .label{font-weight:700;color:var(--text2);min-width:36px}
+.crypto-addr code{font-family:var(--font-mono);color:var(--text3);word-break:break-all;flex:1;font-size:.72rem}
+.crypto-addr button{padding:3px 8px;font-size:.68rem}
+
+/* Premium Teaser */
+.premium-section{margin-top:24px;padding:32px;background:linear-gradient(135deg,var(--primary),#5a3fbf);border-radius:var(--radius-lg);color:#fff;text-align:center;position:relative;overflow:hidden}
+.premium-section::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.premium-section h2{font-size:1.8rem;margin-bottom:6px}
+.premium-section p{opacity:.85;font-size:.9rem;max-width:460px;margin:0 auto 20px}
+.premium-features{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.premium-feat{background:rgba(255,255,255,.12);padding:10px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:500;backdrop-filter:blur(4px)}
+.premium-email{display:flex;gap:8px;max-width:380px;margin:0 auto}
+.premium-email input{flex:1;padding:10px 14px;border-radius:var(--radius);border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-size:.85rem}
+.premium-email input::placeholder{color:rgba(255,255,255,.5)}
+.premium-email button{padding:10px 20px;border-radius:var(--radius);background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;white-space:nowrap;transition:all var(--transition)}
+.premium-email button:hover{background:var(--accent-light);transform:translateY(-1px)}
+
+/* Footer */
+.site-footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 24px 100px;margin-top:40px}
+.footer-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+@media(max-width:640px){.footer-inner{grid-template-columns:1fr}}
+.footer-col h4{font-family:var(--font-display);font-size:1.1rem;margin-bottom:12px;color:var(--text)}
+.footer-col p{font-size:.82rem;color:var(--text3);line-height:1.6}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:6px}
+.footer-col li a{font-size:.82rem;color:var(--text3);transition:color var(--transition)}
+.footer-col li a:hover{color:var(--primary)}
+.newsletter-form{display:flex;gap:6px;margin-top:12px}
+.newsletter-form input{flex:1;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem}
+.newsletter-form button{padding:8px 16px;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-weight:600;font-size:.78rem;transition:all var(--transition)}
+.newsletter-form button:hover{background:var(--primary-light)}
+.footer-bottom{max-width:900px;margin:24px auto 0;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--text3);flex-wrap:wrap;gap:8px}
+
+/* Home grid */
+.home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.home-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden}
+.home-card:hover{box-shadow:var(--card-hover);transform:translateY(-3px);border-color:var(--primary)}
+.home-card .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px}
+.home-card h3{font-size:1.1rem;margin-bottom:4px;color:var(--text)}
+.home-card p{font-size:.78rem;color:var(--text3);line-height:1.5}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:var(--radius);font-size:.82rem;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Stats Dashboard */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.purple::after{background:var(--primary)}
+.stat-card.amber::after{background:var(--accent)}
+.stat-card.green::after{background:#27ae60}
+.stat-card.blue::after{background:#3498db}
+.stat-card .stat-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:600;margin-bottom:4px}
+.stat-card .stat-value{font-size:2rem;font-family:var(--font-display);font-style:italic;color:var(--text)}
+.stat-card .stat-sub{font-size:.75rem;color:var(--text3);margin-top:2px}
+.stat-chart{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
+.stat-chart h3{font-size:1.1rem;margin-bottom:12px;color:var(--text)}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;height:120px;padding-top:8px}
+.chart-bar{flex:1;background:var(--primary-dim);border-radius:4px 4px 0 0;position:relative;min-height:4px;transition:all .3s ease}
+.chart-bar:hover{background:var(--primary);opacity:.85}
+.chart-bar .bar-tip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:2px 6px;border-radius:4px;font-size:.65rem;white-space:nowrap;margin-bottom:4px}
+.chart-bar:hover .bar-tip{display:block}
+.chart-labels{display:flex;gap:4px;margin-top:4px}
+.chart-labels span{flex:1;text-align:center;font-size:.6rem;color:var(--text3)}
+.stat-log{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.stat-log h3{font-size:1.1rem;margin-bottom:12px;color:var(--text)}
+.log-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.log-table th{text-align:left;padding:8px;border-bottom:2px solid var(--border);color:var(--text3);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font)}
+.log-table td{padding:8px;border-bottom:1px solid var(--border);color:var(--text2)}
+.log-table tr:last-child td{border-bottom:none}
+.stat-note{margin-top:16px;padding:14px;background:var(--accent-dim);border:1px solid var(--accent);border-radius:var(--radius);font-size:.8rem;color:var(--text2);line-height:1.5}
+.stat-note strong{color:var(--text)}
+.live-dot{display:inline-block;width:8px;height:8px;background:#27ae60;border-radius:50%;margin-right:6px;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.footer-visits{display:flex;align-items:center;gap:4px;color:var(--text3);font-size:.75rem}
+</style>
+</head>
+<body>
+<!-- Cookie Banner -->
+<div class="cookie-banner show" id="cookieBanner">
+  <span>We use cookies to improve your experience and serve relevant ads. By continuing, you agree to our <a href="#">Cookie Policy</a>.</span>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button class="cookie-btn-decline" onclick="dismissCookie()">Decline</button>
+    <button class="cookie-btn-accept" onclick="dismissCookie()">Accept All</button>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">T</div>
+    <div class="logo-text">ToolBox<span>.io</span></div>
+  </div>
+  <div class="header-tagline">Free Online Tools for Everyone</div>
+  <div class="header-spacer"></div>
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="toolSearch" placeholder="Search tools..." oninput="filterTools(this.value)">
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode" id="themeBtn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="themeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <button class="mobile-menu-btn" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<!-- Top Ad -->
+<div class="ad-leaderboard ad-space">AD SPACE &mdash; 728&times;90 Leaderboard</div>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- Main Layout -->
+<div class="main-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-item active" data-tool="home" onclick="showTool('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        All Tools
+      </div>
+    </div>
+    <div class="sidebar-label">Text Tools</div>
+    <div class="sidebar-section">
+      <div class="sidebar-item" data-tool="wordcount" onclick="showTool('wordcount')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Word Counter
+      </div>
+      <div class="sidebar-item" data-tool="lorem" onclick="showTool('lorem')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Lorem Ipsum
+      </div>
+      <div class="sidebar-item" data-tool="caseconv" onclick="showTool('caseconv')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4h6m-3 0v16m10-16h6m-3 0v16"/></svg>
+        Case Converter
+      </div>
+      <div class="sidebar-item" data-tool="markdown" onclick="showTool('markdown')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15V9l3 3 3-3v6m5-6v6"/></svg>
+        Markdown Preview
+      </div>
+    </div>
+    <div class="sidebar-label">Developer Tools</div>
+    <div class="sidebar-section">
+      <div class="sidebar-item" data-tool="json" onclick="showTool('json')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        JSON Formatter
+      </div>
+      <div class="sidebar-item" data-tool="base64" onclick="showTool('base64')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M9 9h1m5 0h1M9 15h1m5 0h1"/></svg>
+        Base64 Encode/Decode
+      </div>
+      <div class="sidebar-item" data-tool="url" onclick="showTool('url')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        URL Encode/Decode
+      </div>
+      <div class="sidebar-item" data-tool="qr" onclick="showTool('qr')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zm4 0h3v3h-3zm-4 4h3v3h-3zm4 0h3v3h-3z"/></svg>
+        QR Code Generator
+      </div>
+    </div>
+    <div class="sidebar-label">Generators &amp; Converters</div>
+    <div class="sidebar-section">
+      <div class="sidebar-item" data-tool="password" onclick="showTool('password')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Password Generator
+      </div>
+      <div class="sidebar-item" data-tool="color" onclick="showTool('color')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+        Color Picker
+      </div>
+      <div class="sidebar-item" data-tool="timestamp" onclick="showTool('timestamp')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Timestamp Converter
+      </div>
+      <div class="sidebar-item" data-tool="units" onclick="showTool('units')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        Unit Converter
+      </div>
+    </div>
+    <div class="sidebar-label">Analytics</div>
+    <div class="sidebar-section">
+      <div class="sidebar-item" data-tool="stats" onclick="showTool('stats')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Site Stats
+      </div>
+    </div>
+    <div class="sidebar-ad">
+      <div class="ad-space ad-sidebar">AD SPACE &mdash; 300&times;250 Sidebar</div>
+    </div>
+  </nav>
+
+  <main class="content" id="mainContent">
+    <!-- Tool panels rendered by JS -->
+  </main>
+
+  <aside class="content-right">
+    <div class="ad-space ad-sidebar">AD SPACE &mdash; 300&times;250 Sidebar</div>
+    <div style="margin-top:16px">
+      <div class="ad-space ad-sidebar">AD SPACE &mdash; 300&times;250 Sidebar</div>
+    </div>
+  </aside>
+</div>
+
+<!-- Support Section -->
+<section class="support-section" id="supportSection">
+  <h2>Support ToolBox.io</h2>
+  <p>These tools are 100% free and always will be. If you find them useful, consider buying us a coffee to keep the servers running.</p>
+  <div class="donate-buttons">
+    <a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn donate-bmc">&#9749; Buy Me a Coffee</a>
+    <a href="https://paypal.me/yourusername" target="_blank" class="donate-btn donate-paypal">&#36; PayPal</a>
+    <a href="https://ko-fi.com/yourusername" target="_blank" class="donate-btn donate-kofi">&#10084; Ko-fi</a>
+  </div>
+  <div class="crypto-addrs">
+    <h4>Crypto Donations</h4>
+    <div class="crypto-addr">
+      <span class="label">BTC</span>
+      <code>bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</code>
+      <button class="copy-btn" onclick="copyText('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
+    </div>
+    <div class="crypto-addr">
+      <span class="label">ETH</span>
+      <code>0x71C7656EC7ab88b098defB751B7401B5f6d8976F</code>
+      <button class="copy-btn" onclick="copyText('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- Premium Teaser -->
+<section class="premium-section">
+  <h2>Go Premium</h2>
+  <p>Unlock powerful features for power users and developers. Coming soon.</p>
+  <div class="premium-features">
+    <div class="premium-feat">&#9889; API Access</div>
+    <div class="premium-feat">&#128683; No Ads</div>
+    <div class="premium-feat">&#128230; Bulk Processing</div>
+    <div class="premium-feat">&#9996; Priority Support</div>
+  </div>
+  <div class="premium-email">
+    <input type="email" placeholder="Enter your email for early access">
+    <button onclick="showToast('Thanks! We\'ll notify you at launch.')">Notify Me</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>ToolBox.io</h4>
+      <p>Free online tools for developers, writers, designers, and everyone else. No signup, no tracking, no nonsense.</p>
+      <div class="newsletter-form" style="margin-top:16px">
+        <input type="email" placeholder="Your email">
+        <button onclick="showToast('Subscribed! Check your inbox.')">Subscribe</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="#" onclick="showTool('wordcount');return false">Word Counter</a></li>
+        <li><a href="#" onclick="showTool('password');return false">Password Generator</a></li>
+        <li><a href="#" onclick="showTool('json');return false">JSON Formatter</a></li>
+        <li><a href="#" onclick="showTool('qr');return false">QR Code Generator</a></li>
+        <li><a href="#" onclick="showTool('color');return false">Color Picker</a></li>
+        <li><a href="#" onclick="showTool('units');return false">Unit Converter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 ToolBox.io &mdash; All rights reserved.</span>
+    <span class="footer-visits"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> <span id="footerVisitCount">—</span> visits</span>
+    <span>Made with care for the internet.</span>
+  </div>
+</footer>
+
+<!-- Sticky Footer Ad -->
+<div class="ad-footer"><div class="ad-footer-inner">AD SPACE &mdash; 728&times;50 Sticky Footer</div></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+<script>
+// ===== Utility Functions =====
+function $(id){return document.getElementById(id)}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function copyText(txt){navigator.clipboard.writeText(txt).then(()=>showToast('Copied!'))}
+function dismissCookie(){$('cookieBanner').classList.remove('show')}
+function toggleTheme(){
+  const d=document.documentElement,t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);localStorage.setItem('theme',t);
+  $('themeIcon').innerHTML=t==='dark'?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+}
+function toggleSidebar(){
+  $('sidebar').classList.toggle('open');
+  $('sidebarOverlay').classList.toggle('show');
+}
+(function(){const t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)})();
+
+// ===== Tool Definitions =====
+const tools=[
+  {id:'wordcount',name:'Word Counter',cat:'Text',icon:'#e74c3c',desc:'Count words, characters, sentences, paragraphs, and estimate reading time.'},
+  {id:'lorem',name:'Lorem Ipsum Generator',cat:'Text',icon:'#e67e22',desc:'Generate placeholder text for your designs and mockups.'},
+  {id:'caseconv',name:'Case Converter',cat:'Text',icon:'#f39c12',desc:'Convert text between UPPERCASE, lowercase, Title Case, and more.'},
+  {id:'markdown',name:'Markdown Preview',cat:'Text',icon:'#1abc9c',desc:'Write Markdown and see a live rendered preview side by side.'},
+  {id:'json',name:'JSON Formatter',cat:'Dev',icon:'#3498db',desc:'Format, beautify, and validate JSON data with syntax highlighting.'},
+  {id:'base64',name:'Base64 Encode/Decode',cat:'Dev',icon:'#9b59b6',desc:'Encode text to Base64 or decode Base64 back to plain text.'},
+  {id:'url',name:'URL Encode/Decode',cat:'Dev',icon:'#2ecc71',desc:'Encode or decode URL components for safe use in web addresses.'},
+  {id:'qr',name:'QR Code Generator',cat:'Dev',icon:'#34495e',desc:'Generate QR codes from any text or URL instantly.'},
+  {id:'password',name:'Password Generator',cat:'Generator',icon:'#e74c3c',desc:'Create strong, random passwords with customizable options.'},
+  {id:'color',name:'Color Picker',cat:'Generator',icon:'#e91e63',desc:'Pick colors and convert between HEX, RGB, and HSL formats.'},
+  {id:'timestamp',name:'Timestamp Converter',cat:'Generator',icon:'#00bcd4',desc:'Convert Unix timestamps to human-readable dates and back.'},
+  {id:'units',name:'Unit Converter',cat:'Generator',icon:'#ff9800',desc:'Convert between units of length, weight, and temperature.'},
+  {id:'stats',name:'Site Stats',cat:'Analytics',icon:'#27ae60',desc:'Live visit counter and traffic analytics dashboard for your site.'},
+];
+
+function shareHTML(name){
+  return `<div class="share-bar"><button class="share-btn" onclick="copyText(location.href)">&#128279; Copy Link</button><button class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?text=Check out this free ${encodeURIComponent(name)} tool!&url='+encodeURIComponent(location.href))">&#120143; Share</button></div>`;
+}
+
+// ===== Tool Renderers =====
+const renderers={
+home(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>All Tools</h1><p class="tool-desc">Free, fast, private. Pick a tool to get started.</p></div><div class="home-grid">${tools.map(t=>`<div class="home-card" onclick="showTool('${t.id}')"><div class="icon" style="background:${t.icon}15;color:${t.icon}">${toolEmoji(t.id)}</div><h3>${t.name}</h3><p>${t.desc}</p></div>`).join('')}</div><div class="ad-leaderboard ad-space" style="margin-top:24px">AD SPACE &mdash; 728&times;90 In-Content</div></div>`;
+},
+wordcount(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Word Counter &amp; Text Analyzer</h1><p class="tool-desc">${tools[0].desc}</p></div><div class="field"><label>Paste or type your text</label><textarea id="wcInput" placeholder="Start typing or paste your text here..." oninput="updateWordCount()"></textarea></div><div class="result-grid" id="wcResults"><div class="result-card"><div class="val" id="wcWords">0</div><div class="lbl">Words</div></div><div class="result-card"><div class="val" id="wcChars">0</div><div class="lbl">Characters</div></div><div class="result-card"><div class="val" id="wcSentences">0</div><div class="lbl">Sentences</div></div><div class="result-card"><div class="val" id="wcParagraphs">0</div><div class="lbl">Paragraphs</div></div><div class="result-card"><div class="val" id="wcReadTime">0m</div><div class="lbl">Read Time</div></div></div>${shareHTML('Word Counter')}</div>`;
+},
+lorem(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Lorem Ipsum Generator</h1><p class="tool-desc">${tools[1].desc}</p></div><div class="field-row"><div class="field"><label>Amount</label><input type="number" id="loremCount" value="3" min="1" max="50"></div><div class="field"><label>Type</label><select id="loremType"><option value="paragraphs">Paragraphs</option><option value="sentences">Sentences</option><option value="words">Words</option></select></div></div><div class="tool-actions"><button class="btn-primary" onclick="generateLorem()">Generate</button><button class="btn-secondary" onclick="copyText($('loremOut').textContent)">Copy</button></div><div class="output-box" id="loremOut" style="margin-top:16px">Click Generate to create Lorem Ipsum text.</div>${shareHTML('Lorem Ipsum Generator')}</div>`;
+},
+caseconv(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Case Converter</h1><p class="tool-desc">${tools[2].desc}</p></div><div class="field"><label>Enter your text</label><textarea id="caseInput" placeholder="Type or paste text here..."></textarea></div><div class="toggle-group" style="margin-bottom:16px"><button class="toggle-chip" onclick="convertCase('upper')">UPPERCASE</button><button class="toggle-chip" onclick="convertCase('lower')">lowercase</button><button class="toggle-chip" onclick="convertCase('title')">Title Case</button><button class="toggle-chip" onclick="convertCase('sentence')">Sentence case</button><button class="toggle-chip" onclick="convertCase('alt')">aLtErNaTiNg</button></div><div class="field"><label>Result</label><div class="output-box" id="caseOut" style="position:relative">Result appears here<button class="copy-btn" onclick="copyText($('caseOut').textContent)">Copy</button></div></div>${shareHTML('Case Converter')}</div>`;
+},
+markdown(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Markdown Preview</h1><p class="tool-desc">${tools[3].desc}</p></div><div class="split-pane"><div class="pane"><div class="field"><label>Markdown</label><textarea id="mdInput" style="min-height:300px" oninput="renderMarkdown()" placeholder="# Hello World\n\nWrite **markdown** here..."># Welcome\n\nThis is a **live preview**. Try editing!\n\n- Item one\n- Item two\n\n> Blockquote here\n\n\`\`\`\ncode block\n\`\`\`</textarea></div></div><div class="pane"><label style="display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:6px">Preview</label><div class="markdown-preview" id="mdPreview"></div></div></div>${shareHTML('Markdown Preview')}</div>`;
+},
+json(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>JSON Formatter &amp; Validator</h1><p class="tool-desc">${tools[4].desc}</p></div><div class="field"><label>Paste JSON</label><textarea id="jsonInput" placeholder='{"key": "value", "array": [1,2,3]}'></textarea></div><div class="tool-actions"><button class="btn-primary" onclick="formatJSON()">Format / Beautify</button><button class="btn-secondary" onclick="minifyJSON()">Minify</button><button class="btn-secondary" onclick="copyText($('jsonOut').textContent)">Copy</button></div><div id="jsonMsg" style="margin-top:8px"></div><div class="field" style="margin-top:12px"><label>Output</label><div class="output-box" id="jsonOut" style="max-height:400px">Formatted JSON appears here</div></div>${shareHTML('JSON Formatter')}</div>`;
+},
+base64(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Base64 Encoder / Decoder</h1><p class="tool-desc">${tools[5].desc}</p></div><div class="field"><label>Input</label><textarea id="b64Input" placeholder="Enter text or Base64 string..."></textarea></div><div class="tool-actions"><button class="btn-primary" onclick="b64Encode()">Encode</button><button class="btn-accent" onclick="b64Decode()">Decode</button><button class="btn-secondary" onclick="copyText($('b64Out').textContent)">Copy</button></div><div class="field" style="margin-top:12px"><label>Output</label><div class="output-box" id="b64Out">Result appears here</div></div>${shareHTML('Base64 Encoder')}</div>`;
+},
+url(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>URL Encoder / Decoder</h1><p class="tool-desc">${tools[6].desc}</p></div><div class="field"><label>Input</label><textarea id="urlInput" placeholder="Enter URL or encoded string..."></textarea></div><div class="tool-actions"><button class="btn-primary" onclick="urlEncode()">Encode</button><button class="btn-accent" onclick="urlDecode()">Decode</button><button class="btn-secondary" onclick="copyText($('urlOut').textContent)">Copy</button></div><div class="field" style="margin-top:12px"><label>Output</label><div class="output-box" id="urlOut">Result appears here</div></div>${shareHTML('URL Encoder')}</div>`;
+},
+qr(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>QR Code Generator</h1><p class="tool-desc">${tools[7].desc}</p></div><div class="field"><label>Text or URL</label><input type="text" id="qrInput" placeholder="https://example.com" value="https://toolbox.io"></div><div class="tool-actions"><button class="btn-primary" onclick="generateQR()">Generate QR Code</button></div><div class="qr-output" id="qrOut" style="margin-top:16px"><span style="color:var(--text3);font-size:.85rem">Click generate to create QR code</span></div>${shareHTML('QR Code Generator')}</div>`;
+},
+password(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Password Generator</h1><p class="tool-desc">${tools[8].desc}</p></div><div class="field"><label>Generated Password</label><div class="output-box" id="pwOut" style="font-size:1.1rem;letter-spacing:.05em;text-align:center;padding:20px;position:relative">Click Generate<button class="copy-btn" onclick="copyText($('pwOut').firstChild.textContent)">Copy</button></div></div><div class="field"><label>Length: <span id="pwLenVal">16</span></label><div class="slider-row"><input type="range" id="pwLen" min="6" max="64" value="16" oninput="$('pwLenVal').textContent=this.value"><div class="val" id="pwLenDisp">16</div></div></div><div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px"><label class="checkbox-row"><input type="checkbox" id="pwUpper" checked> Uppercase (A-Z)</label><label class="checkbox-row"><input type="checkbox" id="pwLower" checked> Lowercase (a-z)</label><label class="checkbox-row"><input type="checkbox" id="pwNumbers" checked> Numbers (0-9)</label><label class="checkbox-row"><input type="checkbox" id="pwSymbols" checked> Symbols (!@#$)</label></div><div class="tool-actions"><button class="btn-primary" onclick="generatePassword()">Generate Password</button></div>${shareHTML('Password Generator')}</div>`;
+},
+color(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Color Picker &amp; Converter</h1><p class="tool-desc">${tools[9].desc}</p></div><div class="color-preview" id="colorPreview" style="background:#6c5ce7"></div><div class="field-row" style="margin-top:16px"><div class="field"><label>HEX</label><input type="text" id="colorHex" value="#6c5ce7" oninput="colorFromHex()"></div><div class="field"><label>R</label><input type="number" id="colorR" value="108" min="0" max="255" oninput="colorFromRGB()"></div><div class="field"><label>G</label><input type="number" id="colorG" value="92" min="0" max="255" oninput="colorFromRGB()"></div><div class="field"><label>B</label><input type="number" id="colorB" value="231" min="0" max="255" oninput="colorFromRGB()"></div></div><div class="field-row"><div class="field"><label>HSL</label><input type="text" id="colorHSL" value="hsl(249, 75%, 63%)" readonly></div><div class="field"><label>RGB</label><input type="text" id="colorRGBStr" value="rgb(108, 92, 231)" readonly></div></div><div class="tool-actions"><button class="btn-secondary" onclick="copyText($('colorHex').value)">Copy HEX</button><button class="btn-secondary" onclick="copyText($('colorRGBStr').value)">Copy RGB</button><button class="btn-secondary" onclick="copyText($('colorHSL').value)">Copy HSL</button></div>${shareHTML('Color Picker')}</div>`;
+},
+timestamp(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Timestamp Converter</h1><p class="tool-desc">${tools[10].desc}</p></div><div class="result-card" style="text-align:center;margin-bottom:20px;padding:20px"><div class="lbl">Current Unix Timestamp</div><div class="val" id="tsNow" style="font-size:2rem;cursor:pointer" onclick="copyText(this.textContent)">${Math.floor(Date.now()/1000)}</div><div class="lbl" style="margin-top:4px">Click to copy &bull; Updates live</div></div><div class="field-row"><div class="field"><label>Unix Timestamp</label><input type="number" id="tsUnix" placeholder="e.g. 1700000000" oninput="tsFromUnix()"></div><div class="field"><label>Human-Readable Date</label><input type="datetime-local" id="tsDate" oninput="tsFromDate()"></div></div><div class="field"><label>Conversion Result</label><div class="output-box" id="tsOut">Enter a timestamp or pick a date above</div></div>${shareHTML('Timestamp Converter')}</div>`;
+},
+units(){
+  return `<div class="tool-panel"><div class="tool-header"><h1>Unit Converter</h1><p class="tool-desc">${tools[11].desc}</p></div><div class="field"><label>Category</label><select id="unitCat" onchange="updateUnits()"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select></div><div class="field-row"><div class="field"><label>From</label><select id="unitFrom" onchange="convertUnits()"></select></div><div class="field"><label>To</label><select id="unitTo" onchange="convertUnits()"></select></div></div><div class="field"><label>Value</label><input type="number" id="unitVal" value="1" oninput="convertUnits()"></div><div class="result-card" style="text-align:center;margin-top:16px;padding:20px"><div class="val" id="unitResult">—</div><div class="lbl" id="unitLabel">Result</div></div>${shareHTML('Unit Converter')}</div>`;
+},
+stats(){
+  const s=getVisitStats();
+  const dailyBars=s.daily.map((d,i)=>{const max=Math.max(...s.daily.map(x=>x.count),1);const h=Math.max(4,Math.round((d.count/max)*110));return`<div class="chart-bar" style="height:${h}px;background:${i===s.daily.length-1?'var(--primary)':'var(--primary-dim)'}"><div class="bar-tip">${d.label}: ${d.count}</div></div>`}).join('');
+  const dailyLabels=s.daily.map(d=>`<span>${d.label}</span>`).join('');
+  const logRows=s.log.slice(0,15).map(l=>`<tr><td>${l.date}</td><td>${l.time}</td><td>${l.page}</td><td>${l.referrer}</td></tr>`).join('');
+  return `<div class="tool-panel"><div class="tool-header"><h1><span class="live-dot"></span>Site Stats</h1><p class="tool-desc">Live visit counter and traffic analytics for your site.</p></div><div class="stats-grid"><div class="stat-card purple"><div class="stat-label">Total Visits</div><div class="stat-value">${s.total.toLocaleString()}</div><div class="stat-sub">All time</div></div><div class="stat-card amber"><div class="stat-label">Today</div><div class="stat-value">${s.today}</div><div class="stat-sub">${new Date().toLocaleDateString()}</div></div><div class="stat-card green"><div class="stat-label">This Week</div><div class="stat-value">${s.week}</div><div class="stat-sub">Last 7 days</div></div><div class="stat-card blue"><div class="stat-label">Unique Sessions</div><div class="stat-value">${s.sessions}</div><div class="stat-sub">Based on browser</div></div></div><div class="stat-chart"><h3>Daily Visits (Last 14 Days)</h3><div class="chart-bars">${dailyBars}</div><div class="chart-labels">${dailyLabels}</div></div><div class="stat-log"><h3>Recent Visit Log</h3><table class="log-table"><thead><tr><th>Date</th><th>Time</th><th>Page</th><th>Referrer</th></tr></thead><tbody>${logRows||'<tr><td colspan="4" style="text-align:center;color:var(--text3)">No visits logged yet</td></tr>'}</tbody></table></div><div class="stat-note"><strong>Note:</strong> This counter tracks visits using your browser\'s local storage. For global analytics across all visitors, integrate <strong>Google Analytics</strong>, <strong>Plausible</strong>, or <strong>GoatCounter</strong> — add their tracking snippet to the &lt;head&gt; of your HTML. The counter here shows data for this browser only and resets if storage is cleared.</div>${shareHTML('Site Stats')}</div>`;
+}
+};
+
+function toolEmoji(id){
+  const m={wordcount:'Aa',lorem:'&para;',caseconv:'Tt',markdown:'M&darr;',json:'{}',base64:'64',url:'&#128279;',qr:'&#9638;',password:'&#128274;',color:'&#127912;',timestamp:'&#128339;',units:'&#8644;',stats:'&#128200;'};
+  return m[id]||'&#9881;';
+}
+
+// ===== Navigation =====
+let currentTool='home';
+function showTool(id){
+  currentTool=id;
+  $('mainContent').innerHTML=renderers[id]();
+  document.querySelectorAll('.sidebar-item').forEach(el=>{
+    el.classList.toggle('active',el.dataset.tool===id);
+  });
+  if(window.innerWidth<=768){$('sidebar').classList.remove('open');$('sidebarOverlay').classList.remove('show')}
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Post-render hooks
+  if(id==='markdown')renderMarkdown();
+  if(id==='timestamp')setInterval(()=>{const el=$('tsNow');if(el)el.textContent=Math.floor(Date.now()/1000)},1000);
+  if(id==='units')updateUnits();
+}
+function filterTools(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('.sidebar-item[data-tool]').forEach(el=>{
+    if(el.dataset.tool==='home')return;
+    const name=el.textContent.toLowerCase();
+    el.style.display=name.includes(q)?'flex':'none';
+  });
+}
+
+// ===== Tool Logic =====
+
+// Word Counter
+function updateWordCount(){
+  const t=$('wcInput').value;
+  const words=t.trim()?t.trim().split(/\s+/).length:0;
+  const chars=t.length;
+  const sentences=t.trim()?t.split(/[.!?]+/).filter(s=>s.trim()).length:0;
+  const paragraphs=t.trim()?t.split(/\n\s*\n/).filter(p=>p.trim()).length:0;
+  const mins=Math.ceil(words/200);
+  $('wcWords').textContent=words;
+  $('wcChars').textContent=chars;
+  $('wcSentences').textContent=sentences;
+  $('wcParagraphs').textContent=paragraphs;
+  $('wcReadTime').textContent=mins+'m';
+}
+
+// Lorem Ipsum
+const loremBase="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula ut dictum pharetra, nisi nunc fringilla magna, in commodo elit erat nec turpis. Ut pharetra augue nec augue. Nam elit magna, hendrerit sit amet, tincidunt ac, viverra sed, nulla. Donec porta diam eu massa.".split('. ');
+function generateLorem(){
+  const count=parseInt($('loremCount').value)||3;
+  const type=$('loremType').value;
+  let out='';
+  if(type==='paragraphs'){
+    for(let p=0;p<count;p++){
+      let sentences=[];
+      const len=4+Math.floor(Math.random()*4);
+      for(let i=0;i<len;i++)sentences.push(loremBase[Math.floor(Math.random()*loremBase.length)]);
+      out+=(p===0?'Lorem ipsum dolor sit amet, ':'')+sentences.join('. ')+'.\n\n';
+    }
+  }else if(type==='sentences'){
+    for(let i=0;i<count;i++)out+=loremBase[Math.floor(Math.random()*loremBase.length)]+'.\n';
+  }else{
+    const allWords=loremBase.join(' ').split(' ');
+    const words=[];
+    for(let i=0;i<count;i++)words.push(allWords[Math.floor(Math.random()*allWords.length)]);
+    out=words.join(' ');
+  }
+  $('loremOut').textContent=out.trim();
+}
+
+// Case Converter
+function convertCase(mode){
+  const t=$('caseInput').value;
+  let r='';
+  switch(mode){
+    case'upper':r=t.toUpperCase();break;
+    case'lower':r=t.toLowerCase();break;
+    case'title':r=t.replace(/\w\S*/g,w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase());break;
+    case'sentence':r=t.replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase()).replace(/^./,c=>c.toUpperCase());break;
+    case'alt':r=[...t].map((c,i)=>i%2?c.toUpperCase():c.toLowerCase()).join('');break;
+  }
+  $('caseOut').innerHTML=r+'<button class="copy-btn" onclick="copyText(this.parentElement.firstChild.textContent)">Copy</button>';
+  document.querySelectorAll('.toggle-chip').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Markdown
+function renderMarkdown(){
+  const el=$('mdInput');if(!el)return;
+  let t=el.value;
+  t=t.replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>');
+  t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>');
+  t=t.replace(/`([^`]+)`/g,'<code>$1</code>');
+  t=t.replace(/```([\s\S]*?)```/g,'<pre><code>$1</code></pre>');
+  t=t.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
+  t=t.replace(/^- (.+)$/gm,'<li>$1</li>');
+  t=t.replace(/(<li>.*<\/li>)/s,m=>'<ul>'+m+'</ul>');
+  t=t.replace(/\n{2,}/g,'</p><p>');
+  t='<p>'+t+'</p>';
+  $('mdPreview').innerHTML=t;
+}
+
+// JSON
+function formatJSON(){
+  try{
+    const obj=JSON.parse($('jsonInput').value);
+    $('jsonOut').textContent=JSON.stringify(obj,null,2);
+    $('jsonMsg').innerHTML='<span class="success-msg">&#10003; Valid JSON</span>';
+  }catch(e){
+    $('jsonMsg').innerHTML='<span class="error-msg">&#10007; '+e.message+'</span>';
+  }
+}
+function minifyJSON(){
+  try{
+    const obj=JSON.parse($('jsonInput').value);
+    $('jsonOut').textContent=JSON.stringify(obj);
+    $('jsonMsg').innerHTML='<span class="success-msg">&#10003; Minified</span>';
+  }catch(e){
+    $('jsonMsg').innerHTML='<span class="error-msg">&#10007; '+e.message+'</span>';
+  }
+}
+
+// Base64
+function b64Encode(){try{$('b64Out').textContent=btoa(unescape(encodeURIComponent($('b64Input').value)))}catch(e){$('b64Out').textContent='Error: '+e.message}}
+function b64Decode(){try{$('b64Out').textContent=decodeURIComponent(escape(atob($('b64Input').value.trim())))}catch(e){$('b64Out').textContent='Error: Invalid Base64 string'}}
+
+// URL Encode/Decode
+function urlEncode(){$('urlOut').textContent=encodeURIComponent($('urlInput').value)}
+function urlDecode(){try{$('urlOut').textContent=decodeURIComponent($('urlInput').value)}catch(e){$('urlOut').textContent='Error: Invalid encoded URL'}}
+
+// QR Code
+function generateQR(){
+  const text=$('qrInput').value.trim();
+  if(!text){showToast('Enter text or URL first');return}
+  const qr=qrcode(0,'M');qr.addData(text);qr.make();
+  $('qrOut').innerHTML=qr.createSvgTag(5,0);
+  $('qrOut').querySelector('svg').style.borderRadius='8px';
+}
+
+// Password Generator
+function generatePassword(){
+  const len=parseInt($('pwLen').value);
+  let chars='';
+  if($('pwUpper').checked)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if($('pwLower').checked)chars+='abcdefghijklmnopqrstuvwxyz';
+  if($('pwNumbers').checked)chars+='0123456789';
+  if($('pwSymbols').checked)chars+='!@#$%^&*()_+-=[]{}|;:,.<>?';
+  if(!chars){showToast('Select at least one character type');return}
+  const arr=new Uint32Array(len);crypto.getRandomValues(arr);
+  let pw='';for(let i=0;i<len;i++)pw+=chars[arr[i]%chars.length];
+  $('pwOut').innerHTML=pw+'<button class="copy-btn" onclick="copyText(\''+pw.replace(/'/g,"\\'")+'\')">Copy</button>';
+  $('pwLenDisp').textContent=len;
+}
+
+// Color Picker
+function hexToRgb(hex){
+  hex=hex.replace('#','');
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  const n=parseInt(hex,16);
+  return{r:(n>>16)&255,g:(n>>8)&255,b:n&255};
+}
+function rgbToHsl(r,g,b){
+  r/=255;g/=255;b/=255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0}else{
+    const d=max-min;s=l>.5?d/(2-max-min):d/(max+min);
+    switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break}
+  }
+  return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};
+}
+function updateColorDisplay(r,g,b){
+  const hex='#'+[r,g,b].map(c=>c.toString(16).padStart(2,'0')).join('');
+  const hsl=rgbToHsl(r,g,b);
+  $('colorPreview').style.background=`rgb(${r},${g},${b})`;
+  $('colorHex').value=hex;
+  $('colorR').value=r;$('colorG').value=g;$('colorB').value=b;
+  $('colorRGBStr').value=`rgb(${r}, ${g}, ${b})`;
+  $('colorHSL').value=`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+}
+function colorFromHex(){
+  const v=$('colorHex').value;if(!/^#?[0-9a-f]{3,6}$/i.test(v))return;
+  const{r,g,b}=hexToRgb(v);updateColorDisplay(r,g,b);
+}
+function colorFromRGB(){
+  const r=parseInt($('colorR').value)||0,g=parseInt($('colorG').value)||0,b=parseInt($('colorB').value)||0;
+  updateColorDisplay(Math.min(255,r),Math.min(255,g),Math.min(255,b));
+}
+
+// Timestamp
+function tsFromUnix(){
+  const v=parseInt($('tsUnix').value);
+  if(isNaN(v)){$('tsOut').textContent='Enter a valid timestamp';return}
+  const d=new Date(v*1000);
+  $('tsDate').value=d.toISOString().slice(0,16);
+  $('tsOut').textContent=`UTC: ${d.toUTCString()}\nLocal: ${d.toLocaleString()}\nISO: ${d.toISOString()}`;
+}
+function tsFromDate(){
+  const d=new Date($('tsDate').value);
+  if(isNaN(d)){$('tsOut').textContent='Select a valid date';return}
+  const ts=Math.floor(d.getTime()/1000);
+  $('tsUnix').value=ts;
+  $('tsOut').textContent=`Unix: ${ts}\nUTC: ${d.toUTCString()}\nISO: ${d.toISOString()}`;
+}
+
+// Unit Converter
+const unitData={
+  length:{units:['Meters','Kilometers','Miles','Feet','Inches','Centimeters','Yards'],toBase:[1,1000,1609.344,0.3048,0.0254,0.01,0.9144]},
+  weight:{units:['Kilograms','Grams','Pounds','Ounces','Tonnes','Milligrams'],toBase:[1,0.001,0.453592,0.0283495,1000,0.000001]},
+  temperature:{units:['Celsius','Fahrenheit','Kelvin'],toBase:null}
+};
+function updateUnits(){
+  const cat=$('unitCat').value;
+  const units=unitData[cat].units;
+  const opts=units.map((u,i)=>`<option value="${i}">${u}</option>`).join('');
+  $('unitFrom').innerHTML=opts;
+  $('unitTo').innerHTML=opts;
+  $('unitTo').selectedIndex=1;
+  convertUnits();
+}
+function convertUnits(){
+  const cat=$('unitCat').value;
+  const val=parseFloat($('unitVal').value);
+  const fi=parseInt($('unitFrom').value);
+  const ti=parseInt($('unitTo').value);
+  if(isNaN(val)){$('unitResult').textContent='—';return}
+  let result;
+  if(cat==='temperature'){
+    let celsius;
+    if(fi===0)celsius=val;else if(fi===1)celsius=(val-32)*5/9;else celsius=val-273.15;
+    if(ti===0)result=celsius;else if(ti===1)result=celsius*9/5+32;else result=celsius+273.15;
+  }else{
+    const base=val*unitData[cat].toBase[fi];
+    result=base/unitData[cat].toBase[ti];
+  }
+  $('unitResult').textContent=result%1===0?result:result.toFixed(6);
+  $('unitLabel').textContent=`${unitData[cat].units[fi]} → ${unitData[cat].units[ti]}`;
+}
+
+// Visit Counter & Stats
+function recordVisit(){
+  const now=new Date();
+  const key='tb_visits';
+  const sessKey='tb_sessions';
+  let data=JSON.parse(localStorage.getItem(key)||'[]');
+  data.push({
+    ts:now.getTime(),
+    date:now.toLocaleDateString(),
+    time:now.toLocaleTimeString(),
+    page:currentTool||'home',
+    referrer:document.referrer||'direct'
+  });
+  // Keep last 500 entries
+  if(data.length>500)data=data.slice(-500);
+  localStorage.setItem(key,JSON.stringify(data));
+  // Track unique sessions
+  const today=now.toISOString().slice(0,10);
+  let sessions=JSON.parse(localStorage.getItem(sessKey)||'{}');
+  if(!sessions[today]){sessions[today]=1}else{sessions[today]++}
+  // Keep last 90 days of sessions
+  const keys=Object.keys(sessions).sort();
+  if(keys.length>90){keys.slice(0,-90).forEach(k=>delete sessions[k])}
+  localStorage.setItem(sessKey,JSON.stringify(sessions));
+  updateFooterCount();
+}
+function getVisitStats(){
+  const data=JSON.parse(localStorage.getItem('tb_visits')||'[]');
+  const sessions=JSON.parse(localStorage.getItem('tb_sessions')||'{}');
+  const now=new Date();
+  const todayStr=now.toLocaleDateString();
+  const total=data.length;
+  const today=data.filter(v=>v.date===todayStr).length;
+  const weekAgo=now.getTime()-7*86400000;
+  const week=data.filter(v=>v.ts>=weekAgo).length;
+  const sessionCount=Object.keys(sessions).length;
+  // Daily breakdown for last 14 days
+  const daily=[];
+  for(let i=13;i>=0;i--){
+    const d=new Date(now.getTime()-i*86400000);
+    const dStr=d.toLocaleDateString();
+    const label=(d.getMonth()+1)+'/'+d.getDate();
+    const count=data.filter(v=>v.date===dStr).length;
+    daily.push({label,count});
+  }
+  // Recent log
+  const log=data.slice(-15).reverse();
+  return{total,today,week,sessions:sessionCount,daily,log};
+}
+function updateFooterCount(){
+  const data=JSON.parse(localStorage.getItem('tb_visits')||'[]');
+  const el=document.getElementById('footerVisitCount');
+  if(el)el.textContent=data.length.toLocaleString();
+}
+
+// Record visit on page load
+recordVisit();
+
+// Init
+showTool('home');
+</script>
+</body>
+</html>
