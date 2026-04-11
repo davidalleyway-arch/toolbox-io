@@ -522,13 +522,13 @@ input,textarea,select{font-family:var(--font);outline:none}
     <h4>Crypto Donations</h4>
     <div class="crypto-addr">
       <span class="label">BTC</span>
-      <code>bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</code>
-      <button class="copy-btn" onclick="copyText('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
+      <code>39AtEDjsGNcyS9yfJiKEznGsmf5vVH2jUs</code>
+      <button class="copy-btn" onclick="copyText('39AtEDjsGNcyS9yfJiKEznGsmf5vVH2jUs')">Copy</button>
     </div>
     <div class="crypto-addr">
       <span class="label">ETH</span>
-      <code>0x71C7656EC7ab88b098defB751B7401B5f6d8976F</code>
-      <button class="copy-btn" onclick="copyText('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
+      <code>0xe3Ce3BF963704b8ce6803db9161e7a8fd4F858Dc</code>
+      <button class="copy-btn" onclick="copyText('0xe3Ce3BF963704b8ce6803db9161e7a8fd4F858Dc')">Copy</button>
     </div>
   </div>
 </section>
@@ -555,6 +555,7 @@ input,textarea,select{font-family:var(--font);outline:none}
     <div class="footer-col">
       <h4>ToolBox.io</h4>
       <p>Free online tools for developers, writers, designers, and everyone else. No signup, no tracking, no nonsense.</p>
+      <p style="margin-top:8px;font-size:.78rem"><a href="https://david4113y.github.io/" target="_blank" style="color:var(--primary)">Visit our other projects &rarr;</a></p>
       <div class="newsletter-form" style="margin-top:16px">
         <input type="email" placeholder="Your email">
         <button onclick="showToast('Subscribed! Check your inbox.')">Subscribe</button>
@@ -567,6 +568,7 @@ input,textarea,select{font-family:var(--font);outline:none}
         <li><a href="#">Privacy Policy</a></li>
         <li><a href="#">Terms of Service</a></li>
         <li><a href="#">Contact</a></li>
+        <li><a href="https://david4113y.github.io/" target="_blank">Our Other Projects</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -709,7 +711,7 @@ charfreq(){
   return `<div class="tool-panel"><div class="tool-header"><h1>Character Frequency Analyzer</h1><p class="tool-desc">Analyze character and word frequency with visual distribution.</p></div><div class="field"><label>Input Text</label><textarea id="charfreqInput" placeholder="Type or paste text to analyze..." oninput="analyzeCharFreq()"></textarea></div><div id="charfreqLetterChart" style="margin-top:16px"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px"><div><h3 style="font-size:1rem;margin-bottom:8px">Character Frequency</h3><div id="charfreqCharTable" style="max-height:300px;overflow-y:auto"></div></div><div><h3 style="font-size:1rem;margin-bottom:8px">Top 20 Words</h3><div id="charfreqWordTable" style="max-height:300px;overflow-y:auto"></div></div></div>${shareHTML('Character Frequency')}</div>`;
 },
 resources(){
-  return `<div class="tool-panel"><div class="tool-header"><h1>Recommended Tools &amp; Resources</h1><p class="tool-desc">Curated recommendations for developers, writers, and creators.</p></div><div class="resource-grid"><div class="resource-card"><div class="rc-cat">Web Hosting</div><h3>Get Your Tools Site Online</h3><p>Reliable hosting to deploy your web apps and tools with great uptime and speed.</p><div class="rc-links"><a href="#" class="rc-link">Namecheap</a><a href="#" class="rc-link">Bluehost</a></div></div><div class="resource-card"><div class="rc-cat">Domain Names</div><h3>Get a Custom Domain</h3><p>Register the perfect domain name to brand your project or portfolio.</p><div class="rc-links"><a href="#" class="rc-link">Namecheap Domains</a></div></div><div class="resource-card"><div class="rc-cat">VPN</div><h3>Protect Your Privacy Online</h3><p>Browse securely and protect your data with a trusted VPN provider.</p><div class="rc-links"><a href="#" class="rc-link">NordVPN</a><a href="#" class="rc-link">Surfshark</a></div></div><div class="resource-card"><div class="rc-cat">Writing Tools</div><h3>Level Up Your Writing</h3><p>AI-powered writing assistant for grammar, clarity, and tone improvements.</p><div class="rc-links"><a href="#" class="rc-link">Grammarly</a></div></div><div class="resource-card"><div class="rc-cat">Design Tools</div><h3>Create Stunning Visuals</h3><p>Professional design platform for social media, presentations, and marketing.</p><div class="rc-links"><a href="#" class="rc-link">Canva Pro</a></div></div><div class="resource-card"><div class="rc-cat">Developer Tools</div><h3>Ship Code Faster</h3><p>Premium development tools and platforms for professional software engineers.</p><div class="rc-links"><a href="#" class="rc-link">GitHub Pro</a><a href="#" class="rc-link">JetBrains</a></div></div></div><div class="resource-disclaimer">Some links may be affiliate links. We may earn a commission at no extra cost to you.</div>${shareHTML('Resources')}</div>`;
+  return `<div class="tool-panel"><div class="tool-header"><h1>Recommended Tools &amp; Resources</h1><p class="tool-desc">Curated recommendations for developers, writers, and creators.</p></div><div class="resource-grid"><div class="resource-card" style="border-color:var(--accent);border-width:2px"><div class="rc-cat" style="color:var(--accent)">&#11088; Featured — Crypto</div><h3>Get Started with Coinbase</h3><p>Buy, sell, and trade crypto easily. Sign up with our link and we both earn free Bitcoin.</p><div class="rc-links"><a href="https://coinbase.com/join/7FDYK4L?src=ios-link" target="_blank" class="rc-link" style="background:var(--accent);color:#fff;border-color:var(--accent)">Join Coinbase &amp; Earn BTC</a></div></div><div class="resource-card"><div class="rc-cat">Web Hosting</div><h3>Get Your Tools Site Online</h3><p>Reliable hosting to deploy your web apps and tools with great uptime and speed.</p><div class="rc-links"><a href="#" class="rc-link">Namecheap</a><a href="#" class="rc-link">Bluehost</a></div></div><div class="resource-card"><div class="rc-cat">Domain Names</div><h3>Get a Custom Domain</h3><p>Register the perfect domain name to brand your project or portfolio.</p><div class="rc-links"><a href="#" class="rc-link">Namecheap Domains</a></div></div><div class="resource-card"><div class="rc-cat">VPN</div><h3>Protect Your Privacy Online</h3><p>Browse securely and protect your data with a trusted VPN provider.</p><div class="rc-links"><a href="#" class="rc-link">NordVPN</a><a href="#" class="rc-link">Surfshark</a></div></div><div class="resource-card"><div class="rc-cat">Writing Tools</div><h3>Level Up Your Writing</h3><p>AI-powered writing assistant for grammar, clarity, and tone improvements.</p><div class="rc-links"><a href="#" class="rc-link">Grammarly</a></div></div><div class="resource-card"><div class="rc-cat">Design Tools</div><h3>Create Stunning Visuals</h3><p>Professional design platform for social media, presentations, and marketing.</p><div class="rc-links"><a href="#" class="rc-link">Canva Pro</a></div></div><div class="resource-card"><div class="rc-cat">Developer Tools</div><h3>Ship Code Faster</h3><p>Premium development tools and platforms for professional software engineers.</p><div class="rc-links"><a href="#" class="rc-link">GitHub Pro</a><a href="#" class="rc-link">JetBrains</a></div></div></div><div class="resource-disclaimer">Some links may be affiliate links. We may earn a commission at no extra cost to you.</div>${shareHTML('Resources')}</div>`;
 }
 };
 
