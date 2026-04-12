@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ToolBox.io — Free Online Tools for Everyone</title>
+<title>TechnoTools — Free Online Tools for Everyone</title>
 <meta name="description" content="Free online tools: word counter, password generator, JSON formatter, QR code generator, color picker, unit converter, image compressor, hash generator, text diff, regex tester, HTML entity encoder, character frequency analyzer and more. No signup required.">
 <meta name="keywords" content="online tools, word counter, password generator, JSON formatter, QR code generator, base64 encoder, markdown preview, unit converter, image compressor, hash generator, text diff, regex tester, HTML entity encoder, character frequency analyzer, readability score">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,7 +348,7 @@ input,textarea,select{font-family:var(--font);outline:none}
 <header class="header">
   <div class="logo">
     <div class="logo-icon">T</div>
-    <div class="logo-text">ToolBox<span>.io</span></div>
+    <div class="logo-text">Techno<span>Tools</span></div>
   </div>
   <div class="header-tagline">Free Online Tools for Everyone</div>
   <div class="header-spacer"></div>
@@ -513,7 +513,7 @@ input,textarea,select{font-family:var(--font);outline:none}
 
 <!-- Support Section -->
 <section class="support-section" id="supportSection">
-  <h2>Support ToolBox.io</h2>
+  <h2>Support TechnoTools</h2>
   <p>These tools are 100% free and always will be. If you find them useful, consider buying us a coffee to keep the servers running.</p>
   <div class="donate-buttons">
     <a href="https://www.buymeacoffee.com/david4113y" target="_blank" class="donate-btn donate-bmc">&#9749; Buy Me a Coffee</a>
@@ -555,7 +555,7 @@ input,textarea,select{font-family:var(--font);outline:none}
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-col">
-      <h4>ToolBox.io</h4>
+      <h4>TechnoTools</h4>
       <p>Free online tools for developers, writers, designers, and everyone else. No signup, no tracking, no nonsense.</p>
       <p style="margin-top:8px;font-size:.78rem"><a href="https://david4113y.github.io/" target="_blank" style="color:var(--primary)">CryptoVault</a> &middot; <a href="https://david4113y.github.io/domainforge/" target="_blank" style="color:var(--primary)">DomainForge</a></p>
       <div class="newsletter-form" style="margin-top:16px">
@@ -590,7 +590,7 @@ input,textarea,select{font-family:var(--font);outline:none}
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2026 ToolBox.io &mdash; All rights reserved.</span>
+    <span>&copy; 2026 TechnoTools &mdash; All rights reserved.</span>
     <span class="footer-visits"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> <span id="footerVisitCount">—</span> visits</span>
     <span>Made with care for the internet.</span>
   </div>
@@ -673,7 +673,7 @@ url(){
   return `<div class="tool-panel"><div class="tool-header"><h1>URL Encoder / Decoder</h1><p class="tool-desc">${tools[6].desc}</p></div><div class="field"><label>Input</label><textarea id="urlInput" placeholder="Enter URL or encoded string..."></textarea></div><div class="tool-actions"><button class="btn-primary" onclick="urlEncode()">Encode</button><button class="btn-accent" onclick="urlDecode()">Decode</button><button class="btn-secondary" onclick="copyText($('urlOut').textContent)">Copy</button></div><div class="field" style="margin-top:12px"><label>Output</label><div class="output-box" id="urlOut">Result appears here</div></div>${shareHTML('URL Encoder')}</div>`;
 },
 qr(){
-  return `<div class="tool-panel"><div class="tool-header"><h1>QR Code Generator</h1><p class="tool-desc">${tools[7].desc}</p></div><div class="field"><label>Text or URL</label><input type="text" id="qrInput" placeholder="https://example.com" value="https://toolbox.io"></div><div class="field-row"><div class="field"><label>Size</label><select id="qrSize"><option value="4">Small</option><option value="6" selected>Medium</option><option value="8">Large</option><option value="12">Extra Large</option></select></div><div class="field"><label>Foreground</label><input type="color" id="qrFg" value="#000000" style="height:38px;padding:2px"></div><div class="field"><label>Background</label><input type="color" id="qrBg" value="#ffffff" style="height:38px;padding:2px"></div></div><div class="tool-actions"><button class="btn-primary" onclick="generateQR()">Generate QR Code</button><button class="btn-secondary" onclick="downloadQRPng()">Download PNG</button></div><div class="qr-output" id="qrOut" style="margin-top:16px"><span style="color:var(--text3);font-size:.85rem">Click generate to create QR code</span></div><canvas id="qrCanvas" style="display:none"></canvas>${shareHTML('QR Code Generator')}</div>`;
+  return `<div class="tool-panel"><div class="tool-header"><h1>QR Code Generator</h1><p class="tool-desc">${tools[7].desc}</p></div><div class="field"><label>Text or URL</label><input type="text" id="qrInput" placeholder="https://example.com" value="https://technotools.io"></div><div class="field-row"><div class="field"><label>Size</label><select id="qrSize"><option value="4">Small</option><option value="6" selected>Medium</option><option value="8">Large</option><option value="12">Extra Large</option></select></div><div class="field"><label>Foreground</label><input type="color" id="qrFg" value="#000000" style="height:38px;padding:2px"></div><div class="field"><label>Background</label><input type="color" id="qrBg" value="#ffffff" style="height:38px;padding:2px"></div></div><div class="tool-actions"><button class="btn-primary" onclick="generateQR()">Generate QR Code</button><button class="btn-secondary" onclick="downloadQRPng()">Download PNG</button></div><div class="qr-output" id="qrOut" style="margin-top:16px"><span style="color:var(--text3);font-size:.85rem">Click generate to create QR code</span></div><canvas id="qrCanvas" style="display:none"></canvas>${shareHTML('QR Code Generator')}</div>`;
 },
 password(){
   return `<div class="tool-panel"><div class="tool-header"><h1>Password Generator</h1><p class="tool-desc">${tools[8].desc}</p></div><div class="field"><label>Generated Password</label><div class="output-box" id="pwOut" style="font-size:1.1rem;letter-spacing:.05em;text-align:center;padding:20px;position:relative">Click Generate<button class="copy-btn" onclick="copyText($('pwOut').firstChild.textContent)">Copy</button></div><div class="strength-meter"><div class="strength-meter-fill" id="pwStrengthBar" style="width:0"></div></div><div class="strength-label" id="pwStrengthLabel">&nbsp;</div><div class="entropy-display" id="pwEntropy">&nbsp;</div></div><div class="field"><label>Length: <span id="pwLenVal">16</span></label><div class="slider-row"><input type="range" id="pwLen" min="6" max="64" value="16" oninput="$('pwLenVal').textContent=this.value"><div class="val" id="pwLenDisp">16</div></div></div><div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px"><label class="checkbox-row"><input type="checkbox" id="pwUpper" checked> Uppercase (A-Z)</label><label class="checkbox-row"><input type="checkbox" id="pwLower" checked> Lowercase (a-z)</label><label class="checkbox-row"><input type="checkbox" id="pwNumbers" checked> Numbers (0-9)</label><label class="checkbox-row"><input type="checkbox" id="pwSymbols" checked> Symbols (!@#$)</label></div><div style="margin-bottom:16px"><label class="checkbox-row"><input type="checkbox" id="pwPassphrase" onchange="togglePassphraseMode()"> Passphrase mode (e.g. correct-horse-battery-staple)</label></div><div id="pwPhraseOpts" style="display:none;margin-bottom:16px"><div class="field"><label>Number of Words: <span id="pwWordCountVal">4</span></label><div class="slider-row"><input type="range" id="pwWordCount" min="3" max="8" value="4" oninput="$('pwWordCountVal').textContent=this.value"><div class="val">4</div></div></div></div><div class="tool-actions"><button class="btn-primary" onclick="generatePassword()">Generate Password</button></div>${shareHTML('Password Generator')}</div>`;
